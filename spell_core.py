@@ -21,6 +21,13 @@ def edit_distance(word1, word2):
 
 def suggest(word, dictionary, max_suggestions=5):
     word = word.lower()
-    distances = [(edit_distance(word, dict_word), dict_word) for dict_word in dictionary]
+
+    # ✅ Filter dictionary to words within length ±2
+    filtered_dict = [w for w in dictionary if abs(len(w) - len(word)) <= 2]
+
+    # ✅ Calculate edit distances only on filtered words
+    distances = [(edit_distance(word, dict_word), dict_word) for dict_word in filtered_dict]
     distances.sort()
+
     return [word for _, word in distances[:max_suggestions]]
+
